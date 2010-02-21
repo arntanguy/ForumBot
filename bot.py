@@ -186,7 +186,7 @@ class BotForum(object):
             soup = BeautifulSoup.BeautifulSoup( obj_page )
             name_zone  = soup.findAll("div",{"id":"vf"})[0].h2.span.string
             search_category = False
-            if name_zone == u'Résultats de la recherche':
+            if name_zone == u'R&eacute;sultats de la recherche': #u'Résultats de la recherche':
                 search_category = True
             else:
                 category = name_zone
@@ -295,10 +295,11 @@ class BotForum(object):
                     soup = BeautifulSoup.BeautifulSoup( obj_page )
                     auteur_id = soup.findAll("div","postleft")[0].findAll("a")[0]["href"].split("id=")[-1]
                     self.debug('--------------\n'+auteur)
-                    for title in matchs.iteritems():
-                        self.debug(title[1])
+                    for key in matchs.keys():
+                        self.debug(htmlentitydecode(matchs[key])+u' (id:'+str(key)+u', '+htmlentitydecode(topics[key]['category'])+u')')
                     namespace.setdefault('topics',[])
-                    list_titre = [{'topic_id':key, 'titre': value} for key,value in matchs.items()]
+                    list_titre = [{'topic_id':key, 'titre': value, 'id_category': topics[key]['id_category'],
+                        'category': topics[key]['category']} for key,value in matchs.items()]
                     namespace['topics'].append({"auteur_id":auteur_id, "auteur":auteur, "list_titre": list_titre,"topic_id": topic_id})
 
         html_page = self.affichage("doublons.txt",namespace)

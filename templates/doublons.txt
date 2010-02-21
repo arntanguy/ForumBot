@@ -9,6 +9,7 @@
             <tr>
                 <th><a href="http://forum.ubuntu-fr.org/userlist.php">auteur</a></th>
                 <th><a href="http://forum.ubuntu-fr.org/search.php?action=show_24h">Sujets</a></th>
+                <th>Forum</th>
             </tr>
 %for topic in topics:
             <tr>
@@ -20,11 +21,14 @@
                 </td>
             </tr>
     %if topic['list_titre']:
-        %for titre in topic['list_titre']:
+        %for item in topic['list_titre']:
             <tr>
                 <td/>
                 <td>
-                    <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=${titre['topic_id']}">${titre['titre']}</a>
+                    <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=${item['topic_id']}">${item['titre']}</a>
+                </td>
+                <td>
+                    <a href="http://forum.ubuntu-fr.org/viewforum.php?id=${item['id_category']}">${item['category']}</a>
                 </td>
             </tr>
         %endfor
