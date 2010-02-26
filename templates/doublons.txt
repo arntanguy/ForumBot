@@ -1,14 +1,22 @@
+# -*- coding: utf-8 -*-
  <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN'i\
                 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
     </head>
     <body >
-        <form method="post" action="http://forum.ubuntu-fr.org/moderate.php?fid=%s">
+        <form method="post" action="http://forum.ubuntu-fr.org/post.php?action=post&tid=%s">
+            <input type="hidden" name="form_sent" value="1" /> 
+            <input type="hidden" name="form_user" value="nesthib" /> 
+            <input type="hidden" name="req_message" value="[i]merci de respecter les règles du forum[/i]" />
             <table>
             <tr>
                 <th><a href="http://forum.ubuntu-fr.org/userlist.php">auteur</a></th>
+                <th/>
+                <th/>
+                <th/>
                 <th><a href="http://forum.ubuntu-fr.org/search.php?action=show_24h">Sujets</a></th>
+                <th/>
                 <th>Forum</th>
             </tr>
 %for topic in topics:
@@ -17,16 +25,42 @@
                     <a href="http://forum.ubuntu-fr.org/profile.php?id=${topic['auteur_id']}">${topic['auteur']}</a>
                 </td>
                 <td>
+                    <div>Réf.</div>
+                </td>
+                <td>
+                    <div>Fermer</div>
+                </td>
+                <td>
+                    <div>Règles</div>
+                </td>
+                <td align=center >
                     <a href="http://forum.ubuntu-fr.org/search.php?action=show_user&user_id=${topic['auteur_id']}">(tous les messages)</a>
                 </td>
             </tr>
     %if topic['list_titre']:
-        %for item in topic['list_titre']:
+        %for index in range(len(topic['list_titre'])):
+            <% item = topic['list_titre'][index] %>
             <tr>
-                <td/>
-                <td>
-                    <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=${item['topic_id']}">${item['titre']}</a>
+                %if index == 0:
+                    <td align=right >
+                        <input type="submit" name="submit" value="Action" accesskey="s" />
+                    </td>
+                %else:
+                    <td/>
+                %endif
+                <td align=center >
+                   <input type="radio" name="${topic['auteur']}" value="${item['topic_id']}" />
                 </td>
+                <td align=center >
+                    <input type="checkbox" name="close_post" value="1" checked />
+                </td>
+                <td align=center >
+                    <input type="checkbox" name="post_rules" value="1" />
+                </td>
+                <td>
+                       <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=${item['topic_id']}">${item['titre']}</a>
+                </td>
+                <td/>
                 <td>
                     <a href="http://forum.ubuntu-fr.org/viewforum.php?id=${item['id_category']}">${item['category']}</a>
                 </td>
